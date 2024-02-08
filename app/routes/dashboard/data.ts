@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+
 export type Item = {
   name: string;
   quantity: number;
@@ -11,45 +13,55 @@ export type Data = {
   items: Item[];
 };
 
-export const data: Data[] = [
-  {
-    id: "TR12370",
-    status: "planned",
-    plannedDeliveryDate: "2024-02-10T10:47:30.641Z",
-    category: "truck",
+function range(len: number) {
+  const arr: number[] = [];
+  for (let i = 0; i < len; i++) {
+    arr.push(i);
+  }
+  return arr;
+}
+
+function newDelivery(): Data {
+  return {
+    id: faker.database.mongodbObjectId(),
+    status: faker.helpers.shuffle<Data["status"]>([
+      "in-progress",
+      "delivered",
+      "unknown",
+      "planned",
+    ])[0]!,
+    plannedDeliveryDate: faker.helpers.shuffle([
+      faker.date.soon().toISOString(),
+      faker.date.future().toISOString(),
+      faker.date.recent().toISOString(),
+    ])[0]!,
+    category: faker.helpers.shuffle<Data["category"]>(["lorry", "truck"])[0]!,
     items: [
       {
-        name: "chair",
-        quantity: 3,
+        name: faker.commerce.productName(),
+        quantity: faker.number.int(20),
       },
       {
-        name: "leg",
-        quantity: 12,
+        name: faker.commerce.productName(),
+        quantity: faker.number.int(20),
       },
-    ],
-  },
-  {
-    id: "TR12380",
-    status: "planned",
-    plannedDeliveryDate: "2024-02-15T10:47:30.641Z",
-    category: "lorry",
-    items: [
       {
-        name: "chair",
-        quantity: 10,
+        name: faker.commerce.productName(),
+        quantity: faker.number.int(20),
       },
     ],
-  },
-  {
-    id: "TR12390",
-    status: "in-progress",
-    plannedDeliveryDate: "2024-02-15T10:47:30.641Z",
-    category: "truck",
-    items: [
-      {
-        name: "chair",
-        quantity: 10,
-      },
-    ],
-  },
-];
+  };
+}
+
+export function makeData(...lens: number[]) {
+  const makeDataLevel = (depth = 0): Data[] => {
+    const len = lens[depth]!;
+    return range(len).map((): Data => {
+      return {
+        ...newDelivery(),
+      };
+    });
+  };
+
+  return makeDataLevel();
+}

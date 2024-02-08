@@ -1,12 +1,14 @@
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 
-import { data } from "./data";
+import { makeData } from "./data";
 import { CalendarDateRangePicker } from "~/components/date-range-picker";
 import { format, isBefore, isAfter } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import Header from "./header";
 import DashboardTable from "./dashboard-table";
+
+const data = makeData(20);
 
 export function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);

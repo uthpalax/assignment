@@ -1,20 +1,20 @@
-# Welcome to Remix!
+# This assignment is created using Remix and Tanstack Table
 
 - [Remix Docs](https://remix.run/docs)
+- [Tasnstack Table Docs](https://tanstack.com/table/latest/docs)
 
-## Development
+## Get it running
 
 From your terminal:
 
 ```sh
-npm run dev
+npm install && npm run dev
+
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
 
-## Deployment
-
-First, build your app for production:
+## For produtcion
 
 ```sh
 npm run build
@@ -25,14 +25,3 @@ Then run the app in production mode:
 ```sh
 npm start
 ```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
